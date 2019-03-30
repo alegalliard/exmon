@@ -1,0 +1,19 @@
+{
+  "name": "exmon",
+  "version": "1.0.0",
+  "description": " Projeto de estudos Express + Mong",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10"
+  },
+  "scripts": {
+    "start": "nodemon server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alessandra <ale.sz.design@gmail.com>",
+  "license": "ISC"
+}
