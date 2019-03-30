@@ -1,24 +1,41 @@
+const db = require('../config/mongo');
+
 const ExperienceRepository = {
-	list(request,response, next) {
+	list(callback) {
+		db.collection('experiences').find({}, (err, data) => {
+			callback(null, data);
+		})
 	},
 
 	byId(id, callback) {	
-		let obj = { name: 'Castelo da Cinderela'}
+		let _id = db.ObjectId(id);
+		db.collection('experiences').findOne({ _id: _id}, callback)
+
+		//versão completa
+		// db.collection('experiences').findOne({ _id: _id}, (err, data) => {
+		// 	callback(err,data)
+		// })
 				//erro, retorno q quero devolver
 				//o primeiro argumento de qualquer callback do node tem q ser argumento de erro
-		callback(null, obj)
+		// callback(null, obj)
 	},
 
-	create(request,response, next) {
-
+	create(body, callback) {
+		db.collection('experiences').insert(body, callback);
 	},
 
-	update(request,response, next) {
-		
+	update(id, body, callback) {
+		let _id = db.ObjectId(id);
+		let query = { _id: id }
+
+		db.collection('experiences').update(query, { $set: body }, callback);
 	},
 
-	delete(request,response, next) {
+	delete(id, callback) {
+		let _id = db.ObjectId(id);
+		let query = { _id: _id };
 
+		db.collection('experiences').remove(query, callback);
 	}
 }
 
