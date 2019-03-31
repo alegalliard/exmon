@@ -1,6 +1,6 @@
 {
   "name": "exmon",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": " Projeto de estudos Express + Mong",
   "main": "index.js",
   "dependencies": {
