@@ -1,4 +1,5 @@
 const repository = require('../repository/ExperienceRepository');
+const redis = require('../config/redis');
 
 function notFound(data) {
 	if(Array.isArray(data) && !data.length || !data) {
@@ -10,6 +11,19 @@ function notFound(data) {
 	return data;
 }
 const ExperienceController = {
+	listFromCache(request, response, next) {
+		redis.getAsync(	'ale:list' )
+			.then(result => {
+				if(!result) return next();
+
+				let data = JSON.parse(result);
+				console.log('\n ===> Li do cache');
+				console.log(data)
+				response.json(data)
+			})
+			.catch(next)
+	},
+
 	list(request,response, next) {
 		//VERSÃO COM CALLBACK
 		// repository.list((err, data) => {
@@ -21,6 +35,10 @@ const ExperienceController = {
 		repository.listAsync()
 			.then(notFound)
 			.then(( data ) => {
+				redis.setAsync('ale:list', JSON.stringify(data))
+				.catch(err => console.log(err))
+
+				console.log('\n ===> Li do banco');
 				response.json(data);
 			})
 			.catch(next)
@@ -56,8 +74,8 @@ const ExperienceController = {
 		// })
 		// db.collection('experiences')
 
-		//versão async
 
+		//versão async
 		repository.createAsync(body)
 			.then(data => {
 				response.status(201)
@@ -93,6 +111,9 @@ const ExperienceController = {
 		// repository.delete(id, (err, data) => {
 		// 	response.sendStatus(204);
 		// })
+
+		redis.delAsync('ale:list')
+		.catch(console.log('Não pode deletar redis'));
 
 		repository.deleteAsync(id)
 			.then(notFound)

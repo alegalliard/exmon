@@ -2,7 +2,7 @@ const router = require('express').Router();
 const ExperienceController = require('../controller/ExperienceController');
 
 
-router.get('/', ExperienceController.list);
+router.get('/', ExperienceController.listFromCache, ExperienceController.list);
 router.post('/', ExperienceController.create);
 
 router.use('/:id', ExperienceController.validateId); //usando o validate para todos os caminhos abaixo.
