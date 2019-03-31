@@ -13,6 +13,10 @@ const bodyParser = require('body-parser');
 //só para o body q vier em formato de URL
 // ?q=lala&page=3
 //extended para multi níveis {obj:{name: 1}}
+app.disable('x-powered-by');
+
+//define um template render
+app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 

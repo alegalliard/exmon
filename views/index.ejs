@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<style type="text/css">
+		body,html{
+			font-family: Verdana
+		}
+		table{
+			border:0;
+			width: 80%;
+			margin: 0 auto;
+		}
+		table th, table td {
+			padding: 5px 10px;
+			text-align: left;
+		}
+
+		table tbody tr:nth-child(2n+1) {
+			background-color:#eee
+
+		}
+	</style>
+</head>
+<body>
+	<h1><%= title %></h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody id="data">
+		</tbody>
+		
+	</table>
+
+<script type="text/javascript">
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', '/experiences', true);
+	xhr.send();
+	var $data = document.querySelector('#data')
+
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === 4) {
+			var json = JSON.parse(xhr.responseText);
+
+			$data.innerHTML = json.map(item => {
+				console.log(item)
+				return `<tr><td>${item._id}</td><td>${item.name}</td></tr>`;
+			}).join('')
+		}
+	}
+</script>
+	
+</body>
+</html>

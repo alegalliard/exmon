@@ -4,17 +4,25 @@
   "description": " Projeto de estudos Express + Mong",
   "main": "index.js",
   "dependencies": {
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "mongojs": "^2.6.0"
   },
   "devDependencies": {
+    "jshint": "^2.10.2",
     "mocha": "^6.0.2",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "nyc": "^13.3.0",
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "nodemon server/bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "set NODE_ENV=dev&&nodemon server/bin/www",
+    "test": "set NODE_ENV=test&&nyc mocha test/* --exit",
+    "unixstart": "export NODE_ENV=dev && nodemon server/bin/www",
+    "unixtest": "export NODE_ENV=test && nyc mocha test/* --exit",
+    "precommit": "jshint"
   },
   "author": "Alessandra <ale.sz.design@gmail.com>",
   "license": "ISC"

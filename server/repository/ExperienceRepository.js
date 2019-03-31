@@ -1,4 +1,5 @@
 const db = require('../config/mongo');
+const bluebird = require('bluebird');
 
 const ExperienceRepository = {
 	list(callback) {
@@ -26,8 +27,7 @@ const ExperienceRepository = {
 
 	update(id, body, callback) {
 		let _id = db.ObjectId(id);
-		let query = { _id: id }
-
+		let query = { _id: _id }
 		db.collection('experiences').update(query, { $set: body }, callback);
 	},
 
@@ -38,5 +38,5 @@ const ExperienceRepository = {
 		db.collection('experiences').remove(query, callback);
 	}
 }
-
-module.exports = ExperienceRepository;
+// bluebird.promisifyAll pega todos os callbacks e trabsforma em uma promise
+module.exports = bluebird.promisifyAll(ExperienceRepository);

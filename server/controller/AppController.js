@@ -11,7 +11,7 @@ const AppController = {
 		let status = err.status || 500;
 
 		//tratando erros que não mostram no console
-		if(status !== 404) console.log(err.stack) 
+		if(status !== 404 && process.env.NODE_ENV !== 'test') console.log(err.stack) 
 
 		response.status(status);
 		if(request.xhr)
